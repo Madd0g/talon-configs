@@ -29,27 +29,27 @@ I prefer these over the default letters:
 
 ## Skipping, selecting, deleting whole words
 
-### \[num] before / \[num] after
+### \<num> before / \<num> after
 
-Jumps over \[num] words to the left or right (cursor can be in the middle of the word before jumping)
+Jumps over \<num> words to the left or right (cursor can be in the middle of the word before jumping)
 
-### \[num] befores / \[num] afters
+### \<num> befores / \<num> afters
 
-Selects \[num] words to the left or to the right
+Selects \<num> words to the left or to the right
 
-### delete \[num] befores / delete \[num] afters
+### delete \<num> befores / delete \<num> afters
 
-Deletes \[num] words to the left or to the right
+Deletes \<num> words to the left or to the right
 
 ## Repetition
 
-### \<any command> \[num] ok
+### \<any command> \<num> ok
 
 `go down 5 ok?` - I love saying that with an implied question mark
 
 ### wink [num]
 
-repeats the last command \[num] times
+repeats the last command \[num] or 1 times
 
 ### again \[num] / back \[num]
 
