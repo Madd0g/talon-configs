@@ -7,7 +7,7 @@ from time import sleep, time
 import threading
 from urllib.parse import urlencode
 
-from talon import clip, resource, applescript
+from talon import clip, resource, applescript, ui
 from talon.voice import Context, Str, press, Key
 from talon.api import ffi
 
@@ -141,7 +141,15 @@ def insert(s):
     global last_insert
 
     last_insert = s
-    Str(s)(None)
+    
+    bundle = ui.active_app().bundle
+    if bundle == "com.microsoft.VSCode":
+        clip.set(s)
+        press('cmd-v')
+    else:
+        Str(s)(None)
+
+    
     
 
 def select_last_insert(_):
