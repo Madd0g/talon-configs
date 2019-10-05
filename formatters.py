@@ -85,6 +85,11 @@ formatters = {
         lambda i, word, last: ("(%s" % word if i == 0 else word)
         + (")" if last else ""),
     ),
+    "kirk": (
+        True,
+        lambda i, word, last: ("{%s" % word if i == 0 else word)
+        + ("}" if last else ""),
+    ),
 }
 
 
@@ -186,7 +191,7 @@ ctx = Context("formatters")
 ctx.keymap(
     {
         "this" + f"({' | '.join(formatters)})+": format_text,
-        f"({' | '.join(formatters)})+ <dgndictation>++ [over]": format_text,
+        f"({' | '.join(formatters)})+ <dgndictation>+ [over]": format_text,
         "sponge [<dgndictation>] [over]": sponge_format,
     }
 )

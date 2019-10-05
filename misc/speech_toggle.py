@@ -51,7 +51,7 @@ def set_voice_type(type, silent=None):
     dictation_enabled = type == VoiceType.DICTATION
 
     global speech
-    speech.set_enabled(not dragon_enabled)
+    speech.set_enabled(type == VoiceType.TALON or type == VoiceType.DICTATION)
 
     global dictation_group
     if not dictation_enabled:
@@ -78,7 +78,6 @@ def stop_voice(m):
 sleepy.keymap(
     {
         '(snore | talon sleep)': lambda m: set_voice_type(VoiceType.SLEEPING),
-        "": lambda m: set_voice_type(VoiceType.SLEEPING),
         '(unsnore | talon wake)': lambda m: set_voice_type(last_voice_type),
         "talon mode": lambda m: set_voice_type(VoiceType.TALON),
         "dragon mode": lambda m: set_voice_type(VoiceType.DRAGON),

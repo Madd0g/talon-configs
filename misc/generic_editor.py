@@ -10,6 +10,7 @@ from ..utils import (
     join_words,
     numeral_list,
     extract_num_from_m,
+    select_last_insert,
 )
 
 ctx = Context("generic_editor")
@@ -226,6 +227,7 @@ ctx.keymap(
         "([insert] duplicate line | jolt)": Key(
             "ctrl-a cmd-left shift-down cmd-c down cmd-v"
         ),
+        "(correct | select phrase)": select_last_insert,
         # deleting
         "(delete around this | slurp)": Key("backspace delete"),
         "(delete line left | snip left)": Key("shift-cmd-left delete"),
@@ -247,7 +249,7 @@ ctx.keymap(
         "((select | sell) down | shroom)": Key("shift-down"),
         "((select | sell) way down | shroomway)": Key("cmd-shift-down"),
         "((select | sell) way up | shreepway)": Key("cmd-shift-up"),
-        "((select | sell) all | olly | ali)": Key("cmd-a"),
+        "((select | sell) all)": Key("cmd-a"),
         "((select | sell) left | shrim | shlicky)": Key("shift-left"),
         "((select | sell) right | shricky)": Key("shift-right"),
         "((select | sell) word number {generic_editor.n}* above | wordpreev {generic_editor.n}*)": word_prev,
