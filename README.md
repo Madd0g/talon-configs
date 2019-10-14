@@ -71,7 +71,7 @@ The last repeatable command is shown in the bottom of the phrase history along w
 <img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/66724002-3a185180-edd5-11e9-9866-01839299f4ae.png">
 
 ### Picking a previous command
-If you're lazy like me, you don't want to say long commands over and over, all latest repeatable commands are stored and can be re-sent by saying "`re-run`" and picking the right command from the picker that pops up.
+If you're lazy like me, you don't want to say long commands over and over, all latest repeatable commands are stored and can be re-sent by saying `re-run` and picking the right command from the picker that pops up.
 
 
 ---
