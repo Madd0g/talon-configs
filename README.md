@@ -38,13 +38,13 @@ Jumps over \<num> words to the left or right (cursor can be in the middle of the
 
 Selects \<num> words to the left or to the right
 
-### correct
-
-Selects last insertion
-
 ### delete \<num> befores / delete \<num> afters
 
 Deletes \<num> words to the left or to the right
+
+### correct
+
+Selects last insertion
 
 ## Repetition
 
