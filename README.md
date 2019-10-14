@@ -26,6 +26,7 @@ I prefer these over the default letters:
 * command - kemmed
 * home - pop
 * end - push
+* undo - ups
 
 ## Skipping, selecting, deleting whole words
 
