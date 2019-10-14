@@ -62,13 +62,13 @@ The inspiration for this feature came from [anonfunc/talon-user](https://github.
 
 **Examples of how again/back works**
 
+<img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/66724002-3a185180-edd5-11e9-9866-01839299f4ae.png">
+
 * after search (`cmd-f)` the again/back commands are `cmd-g` and `cmd-shift-g` (search forwards or backwards)
 * after `2 befores` (having 2 words selected), `again` results in 3 words selected, `back` results in 1 words selected
 * after `next tab` command, the again is `ctrl-tab` and back is `ctrl-shift-tab`
 
 The last repeatable command is shown in the bottom of the phrase history along with the shortcuts that will be performed for again/back.
-
-<img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/66724002-3a185180-edd5-11e9-9866-01839299f4ae.png">
 
 ### Picking a previous command
 If you're lazy like me, you don't want to say long commands over and over, all latest repeatable commands are stored and can be re-sent by saying `re-run` and picking the right command from the picker that pops up.
