@@ -14,9 +14,10 @@ keymap = {
     "pane last": Key("cmd-["),
     "(switch | find) [<dgndictation>]": [Key("cmd-shift-o"), text],
     "(arnie | start)": "yarn start",
+    "run h top": ["htop", Key('enter')],
     "(abort)": Key('ctrl-c'),
     "(clear)": Key('cmd-k'),
-    "fuzzy [<dgndictation>]": [Key('ctrl-r'), text]
+    "(fuzzy | history) [<dgndictation>]": [Key('ctrl-r'), text]
 }
 
 ctx.keymap(keymap)

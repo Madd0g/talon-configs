@@ -152,6 +152,7 @@ context.keymap(
     {
         "(address bar | focus address | focus url | url | goto address)": focus_address_bar,
         "copy url": Key("escape y y"),
+        "clone tab": Key("escape y t"),
         "(go back)": back,
         "(go forward | forward)": forward,
         "reload": Key("cmd-r"),
@@ -184,7 +185,7 @@ context.keymap(
         # reddit comment
         "collapse next": [Key('enter j'), set_again('enter j', 'k enter')],
         "read selected": Key('space r'),
-        "top": Key('alt-t'),
+        "(top | toop)": Key('alt-t'),
         "expand": Key('alt-3 alt-9'),
         "comments": Key('alt-0'),
         "[open] mark [<dgndictation>]": [Key('`'), utils.text],
@@ -204,7 +205,7 @@ context.keymap(
         "[refocus] dev tools": open_focus_devtools,
         "type": Key("cmd-;"),
         "vim type": [refocus_page, Key("I")],
-        "(find | sip) [<dgndictation>+] [yes]": [refocus_page, Key("/"), utils.text, utils.press_if("enter", "yes$"), set_again('n', 'N')],
+        "(find | sip | drink | greps) [<dgndictation>+] [yes]": [refocus_page, Key("/"), utils.text, utils.press_if("enter", "yes$"), set_again('n', 'N')],
         # visual mode vim
         "float [<dgndictation>]": [refocus_page, Key('f'), utils.text, set_again(';', ',')],
         "(unfloat | backflow) [<dgndictation>]": [refocus_page, Key('F'), utils.text, set_again(';', ',')],
