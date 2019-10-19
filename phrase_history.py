@@ -87,7 +87,7 @@ webview.move(ui.main_screen().width - 400, ui.main_screen().height)
 class History:
     def __init__(self):
         self.history = []
-        self.timer = None
+        self.timer = cron.after('15s', self.auto_hide)
         self.auto_hidden = False
         engine.register('post:phrase', self.on_phrase_post)
         # engine.register('pre:phrase', self.on_phrase_pre)
