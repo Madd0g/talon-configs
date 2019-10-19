@@ -232,7 +232,8 @@ ctx.keymap(
         "(delete around this | slurp)": Key("backspace delete"),
         "(delete line left | snip left)": Key("shift-cmd-left delete"),
         "(delete line right | snip right)": Key("shift-cmd-right delete"),
-        "(delete [this] line)": Key("shift-cmd-right delete delete ctrl-a cmd-left"),
+        "(delete [this] line | snipline)": Key("shift-cmd-right delete delete ctrl-a cmd-left"),
+        
         "(delete word left | trough | steffi | carmex)": Key("alt-backspace"),
         "(delete word [right] | stippy | kite)": Key("alt-delete"),
         "(delete [this] word | slurpies)": Key("alt-backspace alt-delete"),
@@ -261,7 +262,7 @@ ctx.keymap(
         "word {generic_editor.n}": word_number,
         # "((select | sell) word left | scram | last word)": Key("alt-shift-left"),
         # "((select | sell) word right | scrish)": Key("alt-shift-right"),
-        # "((select | sell) line left | lecksy)": Key("cmd-shift-left"),
-        # "((select | sell) line right | ricksy)": Key("cmd-shift-right"),
+        "((select | sell) line left | lecksy | chop)": Key("cmd-shift-left"),
+        "((select | sell) line right | ricksy | gop)": Key("cmd-shift-right"),
     }
 )
