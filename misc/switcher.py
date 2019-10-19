@@ -4,7 +4,7 @@ import time
 import os
 
 from ..utils import join_words, tell_hammerspoon_osa
-
+from .speech_toggle import set_voice_type, VoiceType
 
 running = {}
 launch = {}
@@ -16,7 +16,8 @@ def lookup_app(m=None, name=None):
     elif name is None:
         name = str(m["switcher.running"][0])
 
-    full = running.get(name)
+    # full = running.get(name)
+    full = hardcoded_application_names.get(name)
     if not full:
         return
     if full.startswith('hs:') or full.startswith('key:'):
@@ -27,8 +28,10 @@ def lookup_app(m=None, name=None):
 
 def hammer_switch_app(alias, say_name=None):
     script = f"activateAppByAlias('{alias}')"
-    # if say_name != None:
-    #     script += f"speakText('{say_name}')"
+    if say_name != None:
+        # set_voice_type(VoiceType.SLEEPING, True)
+        script += f"speakTextFast('{say_name}', true)"
+        
     tell_hammerspoon_osa(script)
     
 def switch_app(m=None, name=None):
@@ -83,6 +86,7 @@ hardcoded_application_names = {
     "music": "hs:spotify",
     "password": "hs:keepass",
     "fire fox": "hs:firefox",
+    # "firefox": "hs:firefox",
     "chrome": "hs:browser",
     "chuck": "hs:whatsapp",
     "chat": "hs:whatsapp",
@@ -132,5 +136,6 @@ def ui_event(event, arg):
         update_lists()
 
 
-ui.register("", ui_event)
-update_lists()
+# ui.register("", ui_event)
+# update_lists()
+ctx.set_list("running", hardcoded_application_names)
