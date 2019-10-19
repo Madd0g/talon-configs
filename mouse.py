@@ -73,6 +73,18 @@ def mouse_scroll(amount):
 
     return scroll
 
+def mouse_smooth_scroll(amount, SCROLL_TOTAL_TIME=0):
+    def scroll(m):
+        if SCROLL_TOTAL_TIME != 0:
+            interval = 0.007
+            depth = int(SCROLL_TOTAL_TIME // interval)
+            split = amount / depth
+            for x in range(depth):
+                ctrl.mouse_scroll(y=split)
+                time.sleep(interval)
+        else:
+            ctrl.mouse_scroll(y=amount)
+    return scroll
 
 def mouse_drag(m):
     x, y = click_pos(m)
@@ -127,8 +139,8 @@ keymap = {
     "do park": [delayed_dubclick, Key('cmd-v')],
 	"do koosh": [delayed_dubclick, Key('cmd-c')],
 
-    "wheel down": mouse_scroll(200),
-    "wheel up": mouse_scroll(-200),
+    "wheel down": mouse_smooth_scroll(350, 0.11),
+    "wheel up": mouse_smooth_scroll(-350, 0.11),
     "wheel down here": [mouse_center, mouse_scroll(200)],
     "wheel up here": [mouse_center, mouse_scroll(-200)],
     "mouse center": mouse_center,
