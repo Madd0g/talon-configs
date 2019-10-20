@@ -46,6 +46,17 @@ Deletes \<num> words to the left or to the right
 
 Selects last insertion
 
+## Smart macro
+
+The script in `macro.py` supports number replacement.
+You can record a macro with a number in it, like a complex vim command:
+
+```ys2aw]```
+
+Then you can say `macro play 5` to replay the key sequence with 5 instead of 2.
+
+```ys5aw]```
+
 ## Repetition
 
 ### \<any command> \<num> ok
