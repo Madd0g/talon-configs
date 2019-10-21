@@ -6,6 +6,8 @@ import functools
 from .misc.repeat import get_agains, get_again_history
 from .utils import format_keys
 from .show_choices import show_choices
+from .macro import is_recording, display_macro, macro_record_phrase, macro_stop_phrase
+
 hist_len = 3
 show_agains = True
 
@@ -53,12 +55,28 @@ td {
     background-color: rgb(203, 203, 250) !important;
     opacity: 0.8;
 }
+#macro {
+    border-top: 1px solid black;
+    padding: 2px 0;
+    background-color: rgba(203, 0, 0, 0.3) !important;
+    opacity: 0.8;
+}
 .number {
     background-color: rgba(0,0,0,0.45);
     border-radius: 6px;
     padding: 1px 2px;
     color: white;
     visibility: hidden;
+}
+.number.recording {
+    background-color: red;
+    color: red;
+    padding: 3px;
+    width: 5px;
+    height: 5px;
+    display: inline-block;
+    border-radius: 50px;
+    visibility: visible;
 }
 </style>
 
@@ -77,6 +95,11 @@ td {
         {% if agains[1] != None %}<td style="text-align: right;">{{ agains[1] }}<span class="number">0</span></td>{% endif %}
     </tr>
 {% endif %}
+{% if show_macro %}
+    <tr id="macro">
+        <td colspan="3">{% if recording %}<span  class="number recording"></span>{%endif%}{% if not recording %}<strong>macro:</strong>{%endif%} {{recorded}}</td>
+    </tr>
+{% endif %}
 </table>
 '''
 
@@ -87,6 +110,7 @@ webview.move(ui.main_screen().width - 400, ui.main_screen().height)
 class History:
     def __init__(self):
         self.history = []
+        self.macro_history = []
         self.timer = cron.after('15s', self.auto_hide)
         self.auto_hidden = False
         engine.register('post:phrase', self.on_phrase_post)
@@ -114,6 +138,10 @@ class History:
             else:
                 self.history.append((phrase, '', 1))
                 self.history = self.history[-hist_len:]
+            if phrase == macro_record_phrase():
+                self.macro_history = []
+            elif is_recording() and phrase != macro_stop_phrase():
+                self.macro_history.append(phrase)
             self.render()
             if self.auto_hidden:
                 webview.show()
@@ -125,7 +153,8 @@ class History:
         global show_agains
         agains = get_agains()
         agains = (format_keys(agains[0]), format_keys(agains[1]), agains[2])
-        webview.render(template, phrases=self.history, agains=agains, show_again=show_agains)
+        show_macro = is_recording() or display_macro()
+        webview.render(template, phrases=self.history, agains=agains, show_again=show_agains, show_macro=show_macro, recording=is_recording(), recorded="␣".join(self.macro_history))
     
 history = History()
 
