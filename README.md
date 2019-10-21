@@ -50,6 +50,8 @@ Selects last insertion
 
 `macro start` - to start recording a new macro sequence. The macro sequence will be shown as it is recorded. It will keep showing in the phrase history as long as you're using it.
 
+`macro stop` - to stop recording
+
 <img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/67176949-19c23700-f381-11e9-911c-c5a5d51b7076.png">
 
 The script in [`macro.py`](./macro.py) now supports a number argument.
