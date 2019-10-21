@@ -48,7 +48,7 @@ Selects last insertion
 
 ## Smart parameterized macro
 
-The macro sequence will be shown as it is recorded.
+The macro sequence will be shown as it is recorded. It will be shown in the phrase history as long as you're using it.
 
 <img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/67176949-19c23700-f381-11e9-911c-c5a5d51b7076.png">
 
