@@ -48,14 +48,11 @@ Selects last insertion
 
 ## Smart macro
 
-The script in `macro.py` supports number replacement.
-You can record a macro with a number in it, like a complex vim command:
+The script in `macro.py` now supports a number argument.
+You can record a macro with a number in it, like a complex vim command - ```ys2aw]```
 
-```ys2aw]```
-
-Then you can say `macro play 5` to replay the key sequence with 5 instead of 2.
-
-```ys5aw]```
+`macro play` - will play the macro as recorded
+`replay 5` -  will play the key sequence with 5 instead of 2 - ```ys5aw]```
 
 ## Repetition
 

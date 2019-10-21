@@ -118,7 +118,7 @@ ctx.keymap(
     {
         RECORD_PHRASE: macro_start,
         STOP_PHRASE: macro_stop,
-        "macro play" + optional_numerals: macro_play,
+        "macro play": macro_play,
         "(replay)" + optional_numerals: macro_play,
         "macro print": macro_print,
     }
