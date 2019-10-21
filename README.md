@@ -46,23 +46,6 @@ Deletes \<num> words to the left or to the right
 
 Selects last insertion
 
-## Smart parameterized macro
-
-`macro start` - to start recording a new macro sequence. The macro sequence will be shown as it is recorded. It will keep showing in the phrase history as long as you're using it.
-
-`macro stop` - to stop recording
-
-<img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/67176949-19c23700-f381-11e9-911c-c5a5d51b7076.png">
-
-The script in [`macro.py`](./macro.py) now supports a number argument.
-You can record a macro with a number in it, like a complex vim command - ```ys1aw]``` (surround around 1 word\[s] with square brackets)
-
-`macro play` / `replay` - will play the macro as recorded  
-
-`replay 5` -  will play the key sequence with 5 instead of 1 - ```ys5aw]```  
-
-`replay 1 1` -  will play the key sequence with 11 instead of 1 - ```ys11aw]```
-
 ## Repetition
 
 ### \<any command> \<num> ok
@@ -94,6 +77,23 @@ The last repeatable command is shown in the bottom of the phrase history along w
 ### Picking a previous command
 If you're lazy like me, you don't want to say long commands over and over, all latest repeatable commands are stored and can be re-sent by saying `re-run` and picking the right command from the picker that pops up.
 
+
+## Smart parameterized macro
+
+`macro start` - to start recording a new macro sequence. The macro sequence will be shown as it is recorded. It will keep showing in the phrase history as long as you're using it.
+
+`macro stop` - to stop recording
+
+<img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/67176949-19c23700-f381-11e9-911c-c5a5d51b7076.png">
+
+The script in [`macro.py`](./macro.py) now supports a number argument.
+You can record a macro with a number in it, like a complex vim command - ```ys1aw]``` (surround around 1 word\[s] with square brackets)
+
+`macro play` / `replay` - will play the macro as recorded  
+
+`replay 5` -  will play the key sequence with 5 instead of 1 - ```ys5aw]```  
+
+`replay 1 1` -  will play the key sequence with 11 instead of 1 - ```ys11aw]```
 
 ---
 
