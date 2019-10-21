@@ -55,7 +55,7 @@ The macro sequence will be shown as it is recorded.
 The script in `macro.py` now supports a number argument.
 You can record a macro with a number in it, like a complex vim command - ```ys1aw]```
 
-`macro play` - will play the macro as recorded  
+`macro play` / `replay` - will play the macro as recorded  
 
 `replay 5` -  will play the key sequence with 5 instead of 2 - ```ys5aw]```
 
