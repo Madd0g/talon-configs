@@ -46,12 +46,17 @@ Deletes \<num> words to the left or to the right
 
 Selects last insertion
 
-## Smart macro
+## Smart parameterized macro
+
+Macro will be shown as it is recorded.
+
+<img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/67176949-19c23700-f381-11e9-911c-c5a5d51b7076.png">
 
 The script in `macro.py` now supports a number argument.
-You can record a macro with a number in it, like a complex vim command - ```ys2aw]```
+You can record a macro with a number in it, like a complex vim command - ```ys1aw]```
 
-`macro play` - will play the macro as recorded
+`macro play` - will play the macro as recorded  
+
 `replay 5` -  will play the key sequence with 5 instead of 2 - ```ys5aw]```
 
 ## Repetition
