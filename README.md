@@ -97,9 +97,9 @@ You can record a macro with a number in it, like a complex vim command - ```ys1a
 
 ## Named clipboard
 
-`copy <word>` - copies selection indexed by <word>
+`copy <word>` - copies selection indexed by \<word>
  
- `(free | paste) <word>` - paste clipping stored under <word>
+ `(free | paste) <word>` - paste clipping stored under \<word>
   
  `show clips` - show what's saved in the named clipboard
  
