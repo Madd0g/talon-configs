@@ -78,6 +78,17 @@ The last repeatable command is shown in the bottom of the phrase history along w
 If you're lazy like me, you don't want to say long commands over and over, all latest repeatable commands are stored and can be re-sent by saying `re-run` and picking the right command from the picker that pops up.
 
 
+## Named clipboard
+
+`copy <word>` - copies selection indexed by \<word>
+ 
+ `(free | paste) <word>` - paste clipping stored under \<word>
+  
+ `show clips` - show what's saved in the named clipboard
+ 
+ <img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/67542290-0543ae80-f6a1-11e9-9e26-7f50c5cfc7e9.png">
+
+
 ## Smart parameterized macro
 
 `macro start` - to start recording a new macro sequence. The macro sequence will be shown as it is recorded. It will keep showing in the phrase history as long as you're using it.
@@ -94,16 +105,6 @@ You can record a macro with a number in it, like a complex vim command - ```ys1a
 `replay 5` -  will play the key sequence with 5 instead of 1 - ```ys5aw]```  
 
 `replay 1 1` -  will play the key sequence with 11 instead of 1 - ```ys11aw]```
-
-## Named clipboard
-
-`copy <word>` - copies selection indexed by \<word>
- 
- `(free | paste) <word>` - paste clipping stored under \<word>
-  
- `show clips` - show what's saved in the named clipboard
- 
- <img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/67542290-0543ae80-f6a1-11e9-9e26-7f50c5cfc7e9.png">
 
 ---
 
