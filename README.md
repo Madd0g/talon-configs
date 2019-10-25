@@ -60,13 +60,13 @@ repeats the last command \[num] or 1 times
 
 Special commands that hook up to other commands as forward/backward actions or as "extend action". The direct repeaters like `wink` are great, but you lose them every time you say any command other than the one you want to repeat.
 
-Again/back are attached to commands that are commonly repeated (for example, search forward (`cmd-g`) after search (`cmd-f`))
+Again/back are attached to commands that are commonly repeated, for example, search forward (`cmd-g`) after search (`cmd-f`).
 
 The inspiration for this feature came from [anonfunc/talon-user](https://github.com/anonfunc/talon-user/blob/master/apps/editor.py#L180) extension logic.
 
 **Examples of how again/back works**
 
-* after search (`cmd-f)` the again/back commands are `cmd-g` and `cmd-shift-g` (search forwards or backwards)
+* after search (`cmd-f`) the again/back commands are `cmd-g` and `cmd-shift-g` (search forwards or backwards)
 * after `2 befores` (having 2 words selected), `again 2` results in 4 words selected, `back` results in 1 words selected
 * after `next tab` command, the again is `ctrl-tab` and back is `ctrl-shift-tab`
 
@@ -76,6 +76,17 @@ The last repeatable command is shown in the bottom of the phrase history along w
 
 ### Picking a previous command
 If you're lazy like me, you don't want to say long commands over and over, all latest repeatable commands are stored and can be re-sent by saying `re-run` and picking the right command from the picker that pops up.
+
+
+## Named clipboard
+
+`copy <word>` - copies selection indexed by \<word>
+ 
+ `(free | paste) <word>` - paste clipping stored under \<word>
+  
+ `show clips` - show what's saved in the named clipboard
+ 
+ <img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/67542290-0543ae80-f6a1-11e9-9e26-7f50c5cfc7e9.png">
 
 
 ## Smart parameterized macro
