@@ -95,6 +95,16 @@ You can record a macro with a number in it, like a complex vim command - ```ys1a
 
 `replay 1 1` -  will play the key sequence with 11 instead of 1 - ```ys11aw]```
 
+## Named clipboard
+
+`copy <word>` - copies selection indexed by <word>
+ 
+ `(free | paste) <word>` - paste clipping stored under <word>
+  
+ `show clips` - show what's saved in the named clipboard
+ 
+ <img width="406" alt="image" src="https://user-images.githubusercontent.com/1171003/67542290-0543ae80-f6a1-11e9-9e26-7f50c5cfc7e9.png">
+
 ---
 
 ## Inspiration
