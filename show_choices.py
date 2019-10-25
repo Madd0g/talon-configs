@@ -3,7 +3,7 @@ from talon import app, clip, cron
 from talon.voice import Context, Str, press
 from talon.webview import Webview
 
-from .utils import parse_word
+from .utils import parse_word, string_capture, format_phrase_with_dictations
 import os
 pick_context = Context("pick_choice")
 
@@ -60,14 +60,16 @@ choices_template = (
 {% if title %}<h3>{{title}}</h3>{% endif %}
 <table>
 {% for word in choices %}
-<tr class="count"><td class="pick">🔊 pick </td><td>{{ word }}</td></tr>
+<tr class="{% if choice_labels == None %}count{% endif %}">
+    <td class="pick">🔊 {% if choice_labels == None %} pick {% else %} {{choice_labels[loop.index-1]}} {% endif %} </td>
+    <td>{{ word }}</td>
+</tr>
 {% endfor %}
 <tr><td colspan="2" class="pick cancel">🔊 cancel</td></tr>
 </table>
 </div>
 """
 )
-
 
 def close_choices():
     webview.hide()
@@ -86,21 +88,38 @@ def make_selection(m, choices, callback):
     choice = choices[d - 1]
     callback(choice)
 
-def show_choices(choices, title, callback):
+def make_custom_selection(m, choice_labels, choices, callback):
+    cron.after("0s", close_choices)
+    choice = format_phrase_with_dictations(m)
+    index = choice_labels.index(choice)
+    callback(choice_labels[index])
+
+def show_choices(choices, title, callback, choice_labels=None):
     global pick_context
     if len(choices) < 1:
         print('no choices to show')
         return
-    webview.render(choices_template, choices=choices, title=title)
+    webview.render(choices_template, choices=choices, title=title, choice_labels=choice_labels)
     webview.show()
 
     keymap = {"(cancel | 0)": lambda x: close_choices()}
-    valid_indices = range(len(choices))
-    keymap.update(
-        {
-            "[pick] %s" % (i + 1): lambda m: make_selection(m, choices, callback)
-            for i in valid_indices
-        }
-    )
+    # assign number for choices
+    if choice_labels == None:
+        valid_indices = range(len(choices))
+        keymap.update(
+            {
+                "[pick] %s" % (i + 1): lambda m: make_selection(m, choices, callback)
+                for i in valid_indices
+            }
+        )
+    # pre-assigned words for choices
+    else:
+        keymap.update(
+            {
+                (label): lambda m: make_custom_selection(m, choice_labels, choices, callback)
+                for label in choice_labels
+            }
+        )
+
     pick_context.keymap(keymap)
     pick_context.load()

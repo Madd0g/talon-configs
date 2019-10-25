@@ -14,7 +14,7 @@ from talon.api import ffi
 from . import vocab
 from .bundle_groups import FILETYPE_SENSITIVE_BUNDLES, TERMINAL_BUNDLES
 
-INCLUDE_TEENS_IN_NUMERALS = False
+INCLUDE_TEENS_IN_NUMERALS = True
 INCLUDE_TENS_IN_NUMERALS = False
 
 # mapping = json.load(open(os.path.join(os.path.dirname(__file__), "replace_words.json")))
@@ -160,6 +160,9 @@ def select_last_insert(_):
 
 
 def i(s):
+    return lambda _: insert(s)
+
+def seti(s):
     return lambda _: insert(s)
 
 def string_capture(m):
