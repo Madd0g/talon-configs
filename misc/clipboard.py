@@ -39,7 +39,7 @@ def show_clips(m):
     # print(clips)
     if len(clips) > 0:
         # TODO:: max length and take only the (first line | flattened X chars) of the paste!
-        values = list(map(lambda s: keymap[prefix + s], clips))
+        values = list(map(lambda s: f"<pre>{keymap[prefix + s]}</pre>", clips))
         show_choices(values, 'clipboard', lambda clip: pick_choice(clip), clips)
     else:
         tell_hammerspoon_osa(f"showAlert('no clips')")

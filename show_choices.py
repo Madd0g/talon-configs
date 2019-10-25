@@ -45,7 +45,12 @@ table .count {
     font-weight: normal;
     font-style: italic;
 }
-
+td.value pre {
+    max-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .cancel {
     text-align: center;
 }
@@ -62,7 +67,7 @@ choices_template = (
 {% for word in choices %}
 <tr class="{% if choice_labels == None %}count{% endif %}">
     <td class="pick">🔊 {% if choice_labels == None %} pick {% else %} {{choice_labels[loop.index-1]}} {% endif %} </td>
-    <td>{{ word }}</td>
+    <td class="value">{{ word }}</td>
 </tr>
 {% endfor %}
 <tr><td colspan="2" class="pick cancel">🔊 cancel</td></tr>
