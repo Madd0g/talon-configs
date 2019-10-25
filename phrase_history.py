@@ -96,8 +96,8 @@ td {
     </tr>
 {% endif %}
 {% if show_macro %}
-    <tr id="macro">
-        <td colspan="3">{% if recording %}<span  class="number recording"></span>{%endif%}{% if not recording %}<strong>macro:</strong>{%endif%} {{recorded}}</td>
+    <tr id="macro"><D-left>
+        <</D-left>td colspan="3">{% if recording %}<span class="number recording"></span>{%endif%}{% if not recording %}<span class="number">0</span><strong>macro:</strong>{%endif%} {{recorded}}</td>
     </tr>
 {% endif %}
 </table>
