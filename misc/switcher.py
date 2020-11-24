@@ -3,8 +3,9 @@ from talon import ui
 import time
 import os
 
-from ..utils import join_words, tell_hammerspoon_osa
+from ..utils import join_words, tell_hammerspoon_cli, text
 from .speech_toggle import set_voice_type, VoiceType
+from talon.voice import Context, Key, Str, press
 
 running = {}
 launch = {}
@@ -28,11 +29,11 @@ def lookup_app(m=None, name=None):
 
 def hammer_switch_app(alias, say_name=None):
     script = f"activateAppByAlias('{alias}')"
-    if say_name != None:
+    # if say_name != None:
         # set_voice_type(VoiceType.SLEEPING, True)
-        script += f"speakTextFast('{say_name}', true)"
+        # script += f"speakTextFast('{say_name}', true)"
         
-    tell_hammerspoon_osa(script)
+    tell_hammerspoon_cli(script)
     
 def switch_app(m=None, name=None):
     app = lookup_app(m=m, name=name)
@@ -67,13 +68,14 @@ ctx.keymap(
         "launch {switcher.launch}": launch_app,
         # custom switchers here
         # "madam": lambda x: switch_app(x, "Atom"),
-        "system preferences": lambda x: switch_app(x, "System Preferences"),
+        "(fox app) [<dgndictation>+]": [Key("ctrl-alt-shift-cmd-f8"), text],
+        # "system preferences": lambda x: switch_app(x, "System Preferences"),
     }
 )
 
 hardcoded_application_names = {
     # through hammerspoon
-    "term": "key:alt-space",
+    "term": "hs:iterm",
     "browser": "hs:browser",
     "web": "hs:browser",
     "lack": "hs:slack",
@@ -83,13 +85,15 @@ hardcoded_application_names = {
     "cool": "key:cmd-alt-ctrl-3",
     "play": "key:cmd-alt-ctrl-shift-f9",
     "else": "key:cmd-alt-ctrl-shift-f8",
+    "hunt": "key:cmd-alt-ctrl-shift-f8",
     "music": "hs:spotify",
     "password": "hs:keepass",
     "fire fox": "hs:firefox",
     # "firefox": "hs:firefox",
-    "chrome": "hs:browser",
+    # "chrome": "hs:browser",
     "chuck": "hs:whatsapp",
     "chat": "hs:whatsapp",
+    "quicktime": "hs:quicktime",
     "notes": "hs:boostnote",
     "code": "hs:code",
     "finder": "hs:finder",

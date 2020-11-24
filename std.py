@@ -2,7 +2,7 @@ from talon.voice import Word, Context, Key, Rep, RepPhrase, Str, press
 from talon import app, ctrl, clip, ui, applescript
 from talon_init import TALON_HOME, TALON_PLUGINS, TALON_USER
 import string
-from .utils import parse_words_as_integer, optional_numerals, text, delay, tell_hammerspoon_osa, string_capture, repeat_function, no_prefix_numerals, tell_alfred_flow, press_if, no_prefix_optional_numerals
+from .utils import parse_words_as_integer, optional_numerals, text, delay, tell_hammerspoon_cli, tell_hammerspoon_cli, string_capture, repeat_function, no_prefix_numerals, tell_alfred_flow, press_if, no_prefix_optional_numerals
 from .misc.repeat import set_again, againKey
 from .vocab import add_vocab
 
@@ -43,7 +43,7 @@ def text(m):
 def click_elem_by_query(m):
     my_words = string_capture(m)
     # print('wtf ' + my_words)
-    result = tell_hammerspoon_osa(f"clickElemInCurrentApp('{my_words}', true)")
+    result = tell_hammerspoon_cli(f"clickElemInCurrentApp('{my_words}', true)")
 
 def word(m):
     text = join_words(list(map(parse_word, m.dgnwords[0]._words)))
@@ -137,12 +137,23 @@ def learn_selection(_):
         press("cmd-c", wait=2000)
     words = s.get().split()
     add_vocab(words)
-    tell_hammerspoon_osa(f"showQuickMessage('Learned: {words}')")
+    tell_hammerspoon_cli(f"showQuickMessage('Learned: {words}')")
     # print("Learned " + words)
 
 def set_theme(is_light):
     mode = 'light' if is_light == 1 else 'dark'
-    tell_hammerspoon_osa(f"toggleDarkModeApp('{mode}')")
+    tell_hammerspoon_cli(f"toggleDarkModeApp('{mode}')")
+    
+def clear_reminder(m):
+    tell_hammerspoon_cli(f'setStatusLine(nil)')
+
+def set_reminder(m):
+    my_sentence = join_words(parse_words(m))
+    tell_hammerspoon_cli(f'setStatusLine([[{my_sentence}]])')
+
+def call_hs_status(m):
+    my_sentence = join_words(parse_words(m))
+    tell_hammerspoon_cli(f'callStatusByName([[{my_sentence}]])')
 
 ctx = Context('input')
 ctx.keymap({
@@ -158,7 +169,7 @@ ctx.keymap({
 
     # more keys and modifier keys are defined in basic_keys.py
     
-    'slap': [Key('cmd-right enter')],
+    # 'slap': [Key('cmd-right enter')],
     # 'upslap': [Key('cmd-left enter up')],
     'question [mark]': '?',
     'tilde': '~',
@@ -286,8 +297,8 @@ ctx.keymap({
     # 'string utf8': "'utf8'",
     # 'state past': 'pass',
 
-    # 'plus': '+',
-    # 'arrow': '->',
+    'plus': '+',
+    'arrow': '->',
     # 'call': '()',
     # 'indirect': '&',
     # 'dereference': '*',
@@ -337,6 +348,8 @@ ctx.keymap({
     'next app': Key('cmd-tab'),
     'last app': Key('cmd-shift-tab'),
     'new tab': Key('cmd-t'),
+    'magic': Key('f19'),
+    '[show] console': lambda m: tell_hammerspoon_cli('hs.toggleConsole()'),
     '(next tab | necktie | neck tap)': [Key(NEXT_TAB_KEY), set_again(NEXT_TAB_KEY, PREV_TAB_KEY)],
     '(last tab | bowtie)': [Key(PREV_TAB_KEY), set_again(PREV_TAB_KEY, NEXT_TAB_KEY)],
     
@@ -344,7 +357,9 @@ ctx.keymap({
     "(theme light | day mode)": lambda m: set_theme(1),
     "(dark | night) mode": lambda m: set_theme(0),
     
-    "any complete [<dgndictation>++]": [lambda m: tell_hammerspoon_osa('anyComplete()'), delay(0.25), text],
+    "reminder [<dgndictation>++]": lambda m: set_reminder(m),
+    "(clear reminder | reminder clear)": lambda m: clear_reminder(m),
+    "any complete [<dgndictation>++]": [lambda m: tell_hammerspoon_cli('anyComplete()'), delay(0.25), text],
     "google": lambda m: tell_alfred_flow('net.deanishe.alfred-searchio', 'google'),
     "(duck duck | daduck)": lambda m: tell_alfred_flow('net.deanishe.alfred-searchio', 'ddg'),
     "my downloads": lambda m: tell_alfred_flow('com.sztoltz.recentitems', 'dow'),
@@ -357,18 +372,23 @@ ctx.keymap({
     'menu (click | search) [<dgndictation>+]': [againKey('ctrl-alt-cmd-shift-a'), text],
     'touch <dgndictation>+': click_elem_by_query,
     'my click [<dgndictation>++]': [againKey('ctrl-alt-cmd-shift-1'), text],
-    '(shortcat | short cap | shortcut) [<dgndictation>++]': [againKey('ctrl-alt-cmd-shift-1'), text],
+    '(shortcat | shortcut) [<dgndictation>++]': [againKey('ctrl-alt-cmd-shift-1'), text],
     # 'dash <dgndictation> [over]': [Key('ctrl-alt-cmd-f12'), text],
     # '(dash (sell | selection))': Key('ctrl-alt-cmd-shift-;'),
     '[my] (paste | park) with <dgndictation>+ [yes]': [againKey('ctrl-alt-cmd-shift-v'), text, delay(0.1), press_if("enter", "yes$")],
-    '(my (paste | park))': againKey('ctrl-alt-cmd-shift-v'),
     '(my (paste | park))' + optional_numerals: alfred_paste,
-    "(alfred | launch | launcher) [<dgndictation>+] [yes]": [againKey("cmd-space"), delay(0.4), text, delay(0.1), press_if("enter", "yes$")],
+    '(my (paste | park))': againKey('ctrl-alt-cmd-shift-v'),
+    "(alfred | launcher) [<dgndictation>+] [yes]": [Key("cmd-space"), delay(0.4), text, delay(0.1), press_if("enter", "yes$"), set_again("cmd-space", "cmd-space up")],
     "(repo[s]) [<dgndictation>++] [over]": [againKey("cmd-shift-ctrl-alt-r"), delay(0.4), text],
     '(toggle bluetooth)': againKey('ctrl-alt-cmd-b'),
-    '(toggle invert)': lambda m: tell_hammerspoon_osa(f'toggleAutoInvert()'),
-    '(fast click)': lambda m: tell_hammerspoon_osa(f'clickNotification()'),
+    # '(toggle invert)': lambda m: tell_hammerspoon_cli(f'toggleAutoInvert()'),
+    '(fast click | superman | saul goodman)': lambda m: tell_hammerspoon_cli(f'clickNotification(true)'),
+    'super <dgndictation>++': call_hs_status,
     # 'app search [<dgndictation>]': [againKey('ctrl-alt-cmd-shift-f8'), text],
+    'dascroll': [Key('alt-s')],
+    '(dasmart | dacool)': [lambda m: tell_hammerspoon_cli('chooseSmartAction()')],
+    'dabrowser': [lambda m: tell_hammerspoon_cli('activateAppByAlias([[browser]])')],
+    '(dabook | shmox)': [lambda m: tell_hammerspoon_cli('activateAppByAlias([[$last$]])')],
     'app search [<dgndictation>++]': [Key('ctrl-alt-cmd-shift-f8'), delay(0.25), text, set_again('ctrl-alt-cmd-shift-f8')],
     # 'next space': againKey('cmd-alt-ctrl-right'),
     # '(last | preev) space': againKey('cmd-alt-ctrl-left'),
@@ -381,36 +401,36 @@ ctx.keymap({
     no_prefix_numerals + '(before)': [
         Key("left shift-right left alt-left alt-right"),
         repeat_function(-1, 'alt-left'),
-        set_again('alt-left', 'alt-right')
+        # set_again('alt-left', 'alt-right')
     ],
     no_prefix_numerals + '(after)': [
         Key("right shift-left right alt-right alt-left"),
         repeat_function(-1, 'alt-right'),
-        set_again('alt-right', 'alt-left')
+        # set_again('alt-right', 'alt-left')
     ],
 
     no_prefix_numerals + '(befores | be force)': [
         Key("left shift-right left alt-left alt-right"),
         repeat_function(-1, 'alt-shift-left'),
-        set_again('alt-shift-left', 'alt-shift-right')
+        # set_again('alt-shift-left', 'alt-shift-right')
     ],
     no_prefix_numerals + 'afters': [
         Key("right shift-left right alt-right alt-left"),
         repeat_function(-1, 'alt-shift-right'),
-        set_again('alt-shift-right', 'alt-shift-left')
+        # set_again('alt-shift-right', 'alt-shift-left')
     ],
 
     'delete' + no_prefix_numerals + '(befores | be force)': [
         Key("left shift-right left alt-left alt-right"),
         repeat_function(-1, 'alt-shift-left'),
         Key('delete'),
-        set_again('alt-shift-left delete', 'alt-shift-right delete')
+        # set_again('alt-shift-left delete', 'alt-shift-right delete')
     ],
     'delete' + no_prefix_numerals + 'afters': [
         Key("right shift-left right alt-right alt-left"),
         repeat_function(-1, 'alt-shift-right'),
         Key('delete'),
-        set_again('alt-shift-right delete', 'alt-shift-left delete')
+        # set_again('alt-shift-right delete', 'alt-shift-left delete')
     ],
 
     # 'copy active bundle': copy_bundle,

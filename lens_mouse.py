@@ -19,7 +19,7 @@ from talon_plugins.eye_mouse import tracker
 from talon.voice import Context, Key, press
 
 import json
-from .utils import tell_hammerspoon_osa, debounce
+from .utils import tell_hammerspoon_cli, debounce
 
 # from .noise import model as noise_model
 
@@ -145,7 +145,7 @@ class LensMouse:
     def update_hammerspoon(self):
         eyes_json = json.dumps(list(map(pointToObj, self.xy_hist[-3:])))
         eyes_json = eyes_json.replace('"', '\\"')
-        tell_hammerspoon_osa(f"eyeHistory('{eyes_json}')")
+        tell_hammerspoon_cli(f"eyeHistory('{eyes_json}')")
         
         
 def pointToObj(point):

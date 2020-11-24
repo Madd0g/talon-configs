@@ -1,7 +1,7 @@
 from os import system
 
 from talon.voice import Context, Key, press
-from talon import macos
+from talon import macos, applescript
 from ..utils import parse_words_as_integer
 
 ctx = Context("window_control")
@@ -12,6 +12,16 @@ def jump_tab(m):
     if tab_number is not None and tab_number > 0 and tab_number < 9:
         press("cmd-%s" % tab_number)
 
+def quit_voice_apps(m):
+    script = f'''
+    tell application "Dragon"
+        quit
+    end tell
+    tell application "Talon"
+        quit
+    end tell'''
+    ret = applescript.run(script)
+    print(ret)
 
 ctx.keymap(
     {
@@ -48,6 +58,7 @@ ctx.keymap(
         "(minimise window | curtail)": Key("cmd-m"),
         "([show] (app | application) windows | expozay)": lambda m: macos.dock_notify("com.apple.expose.front.awake"),
         "quit it": Key("cmd-q"),
+        "quit voice": quit_voice_apps,
         # application navigation
         "[open] launcher": Key("cmd-space"),
         "([switch] app (next | right) | swick)": Key("cmd-tab"),
