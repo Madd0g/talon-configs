@@ -1,6 +1,16 @@
 from talon.voice import Context, Key, press, Str
 from talon import applescript
-from ..utils import parse_words_as_integer, repeat_function, optional_numerals, text, delay, press_if
+from ..misc.basic_keys import get_keys
+from ..utils import (
+    parse_words_as_integer,
+    repeat_function,
+    optional_numerals,
+    no_prefix_numerals,
+    text,
+    delay,
+    press_if,
+    string_capture,
+)
 from ..misc.repeat import set_again, againKey
 context = Context("VSCode", bundle="com.microsoft.VSCode")
 
@@ -61,6 +71,110 @@ def select_lines_function(m):
     press("enter")
     for i in range(0, number_of_lines + 1):
         press("shift-down")
+        
+def fold_level(m):
+    line_number = parse_words_as_integer(m._words[1:])
+    if line_number is None:
+        return
+    press('cmd-k')
+    press('cmd-' + str(line_number))
+
+vim_dict = {
+    'copy': 'y',
+    
+    'select': 'v',
+    'change': 'c',
+    'delete': 'd',
+    
+    'line': 'line',
+    
+    'until': 't',
+    'till': 't',
+    'including': 'f',
+    'include': 'f',
+    
+    'in': 'i',
+    'inside': 'i',
+    'around': 'a',
+}
+
+def make_vim(m):
+    seq = ['escape']
+    act = vim_dict[m._words[0]]
+    if act == None:
+        return
+    mov = vim_dict[m._words[1]]
+    if mov == None:
+        return
+    
+    if mov == 'line' and act == 'c':
+        mov = 'c'
+    elif mov == 'line' and act == 'd':
+        mov = 'd'
+    elif mov == 'line' and act == 'y':
+        mov = 'y'
+    elif mov == 'line' and act == 'v':
+        act = 'V'
+        mov = None
+
+    seq.append(act)
+    
+    if mov != None:
+        seq.append(mov)
+    
+    captured = get_keys(m)
+    print('capt', captured)
+    if captured != None and captured != '':
+        seq = seq + captured
+    print('vim', seq, m)
+
+def make_vim_simple(m):
+    seq = ['escape']
+    act = vim_dict[m._words[0]]
+    if act == None:
+        return
+    seq.append(act)
+    amount = parse_words_as_integer(m._words[1:])
+    if amount is None:
+        return
+    seq.append(str(amount))
+    
+    mov = m._words[-1:]
+    keys = get_keys(m)
+    seq = seq + keys
+    Key(" ".join(seq))(m)
+    # print('vims', seq, m)
+
+context.set_list('vim_action', [
+    'select',
+    'change',
+    'delete',
+])
+
+context.set_list('vim_move', [
+    'line',
+    'in',
+    'inside',
+    'around',
+    'until',
+    'till',
+    'including',
+    'include',
+])
+
+context.set_list('vim_dir', [
+    '0',
+    '$',
+    '^',
+    'h',
+    'w',
+    'W',
+    'j',
+    'k',
+    'l',
+    't',
+    'T',
+])
 
 context.keymap(
     {
@@ -73,6 +187,7 @@ context.keymap(
         "find": Key("cmd-f"),
         "find next <dgndictation>": jump_to_next_word_instance,
         "fold": Key('cmd--'),
+        "fold" + no_prefix_numerals: fold_level,
         "(fold all | overview)": Key('cmd-shift--'),
         # todo fold levels
         "unfold": Key('cmd-+'),
@@ -129,6 +244,12 @@ context.keymap(
             text,
             press_if("enter", "yes$")
         ],
+        "(symbol) <dgndictation>+ [yes]": [
+            againKey('cmd-o'),
+            delay(0.1),
+            text,
+            press_if("enter", "yes$")
+        ],
         # tabbing
         # "(next tab | neck tap)": Key("ctrl-tab"),
         # "last tab": Key("ctrl-shift-tab"),
@@ -169,14 +290,16 @@ context.keymap(
         "(jay quotes)": againKey("cmd-'"),
         "(go reference)": Key("cmd-b"),
         "(peek reference)": Key("cmd-alt-f7"),
+        "what the fuck": Key("cmd-alt-g b"), #git blame
         "fix": Key("cmd-."),
-        "fix [this] [<dgndictation>] [over]": [Key("cmd-."), text],
+        "fix next": [Key("f2 cmd-.")],
+        # "fix [this] [<dgndictation>] [over]": [Key("cmd-."), text],
         "fix (all | problems)": Key("cmd-alt-ctrl-p"),
         "cursor up": againKey("alt-cmd-up"),
         "cursor down": againKey("alt-cmd-down"),
         "slap up[per]": againKey("cmd-alt-enter"),
-        "(gimme | more)": [Key("alt-up"), set_again("alt-up", "alt-down")],
-        "(meg | less)": [Key("alt-down"), set_again("alt-down", "alt-up")],
+        "(gimme | more)": [Key("alt-up")],
+        "(meg | less)": [Key("alt-down")],
         "(refactor | rename)": againKey("shift-f6"),
         # "jump" + optional_numerals: jump_tabs,
         # Menu
@@ -200,23 +323,26 @@ context.keymap(
         "((next | neck) mark | swish)": [againKey("alt-/"), delay(0.1), Key('n enter')],
         "((preev) mark | swoop)": [againKey("alt-/"), delay(0.1), Key('p enter')],
         "(hate | go mark | tisk) [<dgndictation>]": [againKey("alt-/"), text],
-        "(action | palette) [<dgndictation>++] [yes]": [againKey(ACTION_POPUP_KEY), text, press_if("enter", "yes$")],
+        "(action) [<dgndictation>++] [yes]": [againKey(ACTION_POPUP_KEY), text, press_if("enter", "yes$")],
         "search all [<dgndictation>++] [yes]": [againKey("cmd-shift-f"), text, press_if("enter", "yes$")],
         "(complete | drop) [yes]": [Key("ctrl-space"), delay(0.3), press_if("enter", "yes$")],
         
         #vim attempts
-        "change inside [<dgndictation>]": [Key('escape c i'), text, set_again('escape .')],
-        "change around [<dgndictation>]": [Key('escape c a'), text, set_again('escape .')],
-        "delete inside [<dgndictation>]": [Key('escape d i'), text, set_again('escape .')],
-        "delete around [<dgndictation>]": [Key('escape d a'), text, set_again('escape .')],
-        "select inside [<dgndictation>]": [Key('escape v i'), text],
-        "select around [<dgndictation>]": [Key('escape v a'), text],
+        # select/change inside/around <word>
+        "{VSCode.vim_action}+ {VSCode.vim_move}+ [<dgndictation>++]": make_vim,
+        "{VSCode.vim_action}+ {n.all}+ {basic_keys.alphabet}+": make_vim_simple,
+        # "change inside [<dgndictation>]": [Key('escape c i'), text, set_again('escape .')],
+        # "change around [<dgndictation>]": [Key('escape c a'), text, set_again('escape .')],
+        # "delete inside [<dgndictation>]": [Key('escape d i'), text, set_again('escape .')],
+        # "delete around [<dgndictation>]": [Key('escape d a'), text, set_again('escape .')],
+        # "select inside [<dgndictation>]": [Key('escape v i'), text],
+        # "select around [<dgndictation>]": [Key('escape v a'), text],
         "comment (indent | indentation)": [Key('escape g c i i')],
         "comment parent [(indent | indentation)]": [Key('escape g c a i')],
         "moment": Key("ctrl-o"),
         "star": ['*', set_again('n', 'N')],
         "pound": ['#', set_again('n', 'N')],
-        "sip [<dgndictation>+] [yes]": [Key('escape /'), text, press_if("enter", "yes$"), set_again('n', 'N')],
+        "(greps) [<dgndictation>+] [yes]": [Key('escape /'), text, press_if("enter", "yes$"), set_again('n', 'N')],
         "sup [<dgndictation>+] [yes]": [Key('escape ?'), text, press_if("enter", "yes$"), set_again('n', 'N')],
         "float [<dgndictation>]": [Key('escape f'), text, set_again(';', ',')],
         "(unfloat | backflow | back float) [<dgndictation>]": [Key('escape F'), text, set_again(';', ',')],

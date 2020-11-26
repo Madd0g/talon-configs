@@ -15,7 +15,7 @@ def open_dragon_menubar():
     end tell
     """)
     x, y = map(int, x.split(", "))
-    ctrl.mouse(x, y+5)
+    ctrl.mouse(x+5, y+5)
     ctrl.mouse_click()
     ctrl.mouse(*old)
 
@@ -45,7 +45,6 @@ def set_status_win(val):
         click menu item "{command}" of menu 1
     end tell
     """)
-
 
 context.keymap(
     {

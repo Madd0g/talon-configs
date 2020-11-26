@@ -77,7 +77,7 @@ class LensMouse:
         self.alpha = not_transparent
         self.size = regular_size
 
-    def draw(self, canvas):
+    def draw(self, canvas: canvas.SkCanvas):
 
         if mouse.origin == None:
             print("Is the tobii disconnected?")
@@ -116,7 +116,6 @@ class LensMouse:
         paint.color = color + alpha
         # canvas.draw_circle(pos[0], pos[1], 25)
         canvas.draw_circle(pos[0], pos[1], self.size)
-        
         # if noise_model.dragging:
         #     ctrl.mouse_move(pos[0], pos[1])
 

@@ -72,7 +72,7 @@ def again_action(m):
     if glob_again != None:
         repeat_again = get_repeat_num(m)
         key_msg = utils.format_keys_unicode(glob_again)
-        utils.tell_hammerspoon_osa(f"showAlert('{key_msg}')")
+        # utils.tell_hammerspoon_osa(f"showBottomLeftMessage('{key_msg}')")
         for _ in range(repeat_again):
             Key(glob_again)(m)
 
@@ -81,7 +81,7 @@ def back_action(m):
     if glob_back != None:
         repeat_back = get_repeat_num(m)
         key_msg = utils.format_keys_unicode(glob_back)
-        utils.tell_hammerspoon_osa(f"showAlert('{key_msg}')")
+        # utils.tell_hammerspoon_osa(f"showBottomLeftMessage('{key_msg}')")
         for _ in range(repeat_back):
             Key(glob_back)(m)
 
@@ -156,8 +156,8 @@ ctx.keymap(
         utils.numerals + '(times | ok)': repeat,
         "(repeat | wink) [" + utils.numerals + ']': repeat,
         
-        "(again | extend | xtend | shizzle | yarp) [" + utils.numerals + ']': again_action,
-        "(bench | back | reduce | reduck | fizzle) [" + utils.numerals + ']': back_action,
+        "(again | shizzle | yarp ) [" + utils.numerals + ']': again_action,
+        "(back | fizzle) [" + utils.numerals + ']': back_action,
         # again phrase
         "flip again[s]": flip_agains,
     }

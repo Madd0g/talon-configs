@@ -209,10 +209,10 @@ ctx.keymap(
         "(undo | dizzle | ups)": Key("cmd-z"),
         "(redo | rizzle)": Key("cmd-shift-z"),
         # clipboard
-        "(clip cut | snatch)": Key("cmd-x"),
-        "(clip copy | stoosh)": Key("cmd-c"),
-        "(clip paste | spark)": Key("cmd-v"),
-        "(clip paste preserve formatting | match spark)": Key("cmd-shift-alt-v"),
+        "(snatch)": Key("cmd-x"),
+        "(stoosh)": Key("cmd-c"),
+        "(spark)": Key("cmd-v"),
+        "(paste preserve formatting | match spark)": Key("cmd-shift-alt-v"),
         # motions
         "([go] word left | fame)": Key("alt-left"),
         "([go] word right | fish)": Key("alt-right"),

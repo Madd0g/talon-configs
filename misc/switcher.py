@@ -28,9 +28,9 @@ def lookup_app(m=None, name=None):
 
 def hammer_switch_app(alias, say_name=None):
     script = f"activateAppByAlias('{alias}')"
-    if say_name != None:
+    # if say_name != None:
         # set_voice_type(VoiceType.SLEEPING, True)
-        script += f"speakTextFast('{say_name}', true)"
+        # script += f"speakTextFast('{say_name}', true)"
         
     tell_hammerspoon_osa(script)
     
@@ -86,7 +86,7 @@ hardcoded_application_names = {
     "music": "hs:spotify",
     "password": "hs:keepass",
     "fire fox": "hs:firefox",
-    # "firefox": "hs:firefox",
+    "fire": "hs:firefox",
     "chrome": "hs:browser",
     "chuck": "hs:whatsapp",
     "chat": "hs:whatsapp",

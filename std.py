@@ -166,7 +166,12 @@ ctx.keymap({
     'dollar [sign]': '$',
     'down score': '_',
     'colon': ':',
-    '(paren | left paren | leap | leip)': '(', '(rparen | are paren | right paren | reap)': ')',
+    'swipe': ', ',
+    'coalgap': ': ',
+    '(dot dot | dotdot | doodle)': '..',
+    'magic': Key('f19'),
+    # "magic [<dgndictation>]": [Key("f19"), press_if("f19", '(?!magic)$')],
+    '(paren | left paren | leap | laip)': '(', '(rparen | are paren | right paren | raip)': ')',
     '(brace | left brace | lace)': '{', '(rbrace | are brace | right brace | race)': '}',
     '(angle | left angle | less than | langle)': '<', '(are angle | right angle | greater than | rangle)': '>',
     '(bracket | square | L square | left square | left bracket | lack)': '[', '(are bracket | R square | right square | right bracket | rack)': ']',
@@ -180,8 +185,6 @@ ctx.keymap({
 
     '(dubquote | double quote)': '"',
     'triple quote': "'''",
-
-    '(dot dot | dotdot)': '..',
     'cd': 'cd ',
     'cd talon home': 'cd {}'.format(TALON_HOME),
     'cd talon user': 'cd {}'.format(TALON_USER),
@@ -312,6 +315,9 @@ ctx.keymap({
     '(op (power | exponent) | to the power [of])': ' ** ',
     'op and': ' && ',
     'op or': ' || ',
+    'trickle': ' === ',
+    '(ranqual | nockle)': ' !== ',
+
     # '[op] (logical | bitwise) and': ' & ',
     # '[op] (logical | bitwise) or': ' | ',
     # '(op | logical | bitwise) (ex | exclusive) or': ' ^ ',
@@ -357,7 +363,8 @@ ctx.keymap({
     'menu (click | search) [<dgndictation>+]': [againKey('ctrl-alt-cmd-shift-a'), text],
     'touch <dgndictation>+': click_elem_by_query,
     'my click [<dgndictation>++]': [againKey('ctrl-alt-cmd-shift-1'), text],
-    '(shortcat | short cap | shortcut) [<dgndictation>++]': [againKey('ctrl-alt-cmd-shift-1'), text],
+    '(shortcat | short cap | shortcut)': Key('ctrl-alt-cmd-shift-f7'),
+    '(channel)': Key('cmd-k'),
     # 'dash <dgndictation> [over]': [Key('ctrl-alt-cmd-f12'), text],
     # '(dash (sell | selection))': Key('ctrl-alt-cmd-shift-;'),
     '[my] (paste | park) with <dgndictation>+ [yes]': [againKey('ctrl-alt-cmd-shift-v'), text, delay(0.1), press_if("enter", "yes$")],
@@ -365,7 +372,7 @@ ctx.keymap({
     '(my (paste | park))' + optional_numerals: alfred_paste,
     "(alfred | launch | launcher) [<dgndictation>+] [yes]": [againKey("cmd-space"), delay(0.4), text, delay(0.1), press_if("enter", "yes$")],
     "(repo[s]) [<dgndictation>++] [over]": [againKey("cmd-shift-ctrl-alt-r"), delay(0.4), text],
-    '(toggle bluetooth)': againKey('ctrl-alt-cmd-b'),
+    '(toggle bluetooth)': Key('ctrl-alt-cmd-b'),
     '(toggle invert)': lambda m: tell_hammerspoon_osa(f'toggleAutoInvert()'),
     '(fast click)': lambda m: tell_hammerspoon_osa(f'clickNotification()'),
     # 'app search [<dgndictation>]': [againKey('ctrl-alt-cmd-shift-f8'), text],
@@ -392,25 +399,25 @@ ctx.keymap({
     no_prefix_numerals + '(befores | be force)': [
         Key("left shift-right left alt-left alt-right"),
         repeat_function(-1, 'alt-shift-left'),
-        set_again('alt-shift-left', 'alt-shift-right')
+        # set_again('alt-shift-left', 'alt-shift-right')
     ],
     no_prefix_numerals + 'afters': [
         Key("right shift-left right alt-right alt-left"),
         repeat_function(-1, 'alt-shift-right'),
-        set_again('alt-shift-right', 'alt-shift-left')
+        # set_again('alt-shift-right', 'alt-shift-left')
     ],
 
     'delete' + no_prefix_numerals + '(befores | be force)': [
         Key("left shift-right left alt-left alt-right"),
         repeat_function(-1, 'alt-shift-left'),
         Key('delete'),
-        set_again('alt-shift-left delete', 'alt-shift-right delete')
+        # set_again('alt-shift-left delete', 'alt-shift-right delete')
     ],
     'delete' + no_prefix_numerals + 'afters': [
         Key("right shift-left right alt-right alt-left"),
         repeat_function(-1, 'alt-shift-right'),
         Key('delete'),
-        set_again('alt-shift-right delete', 'alt-shift-left delete')
+        # set_again('alt-shift-right delete', 'alt-shift-left delete')
     ],
 
     # 'copy active bundle': copy_bundle,

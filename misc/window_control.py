@@ -27,6 +27,8 @@ ctx.keymap(
         "snap": Key("cmd-alt-ctrl-f6"),
         # TODO:: toggle space num
         # TODO:: toggle window between spaces
+        # windy windy windy windy windy
+        # 'windy max': Key('cmd-alt-f'),
         'win left': Key('ctrl-alt-cmd-left'),
         'win right': Key('ctrl-alt-cmd-right'),
         'win max': Key('ctrl-alt-cmd-m'),
