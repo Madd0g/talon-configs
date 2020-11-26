@@ -57,7 +57,9 @@ def repeat(m):
 
 
 glob_again = None
+glob_again_label = None
 glob_back = None
+glob_back_label = None
 again_phrase = None
 again_history = []
 
@@ -71,8 +73,8 @@ def again_action(m):
     global glob_again
     if glob_again != None:
         repeat_again = get_repeat_num(m)
-        key_msg = utils.format_keys_unicode(glob_again)
-        # utils.tell_hammerspoon_osa(f"showBottomLeftMessage('{key_msg}')")
+        # key_msg = utils.format_keys_unicode(glob_again)
+        # utils.tell_hammerspoon_osa(f"showAlert('{key_msg}')")
         for _ in range(repeat_again):
             Key(glob_again)(m)
 
@@ -80,7 +82,7 @@ def back_action(m):
     global glob_back
     if glob_back != None:
         repeat_back = get_repeat_num(m)
-        key_msg = utils.format_keys_unicode(glob_back)
+        # key_msg = utils.format_keys_unicode(glob_back)
         # utils.tell_hammerspoon_osa(f"showBottomLeftMessage('{key_msg}')")
         for _ in range(repeat_back):
             Key(glob_back)(m)
@@ -105,15 +107,25 @@ def get_again_history():
     return again_history
     
     
-def set_again(again=None, back=None):
+def set_again(again=None, back=None, again_label=None, back_label=None):
     def set_inner(m):
-        global glob_again, glob_back, again_phrase
+        global glob_again, glob_back, glob_again_label, glob_back_label, again_phrase, orig_keymap
         glob_again = again
         glob_back = back
+        glob_again_label = again_label
+        glob_back_label = back_label
         
         again_phrase = utils.format_phrase_with_dictations(m)
         remember_again(glob_again, glob_back, again_phrase)
         # print(again_phrase)
+        if again_label or back_label:
+            keymap = orig_keymap.copy()
+            if again_label:
+                keymap[again_label + "[" + utils.numerals + ']'] = again_action
+            if back_label:
+                keymap[back_label + "[" + utils.numerals + ']'] = back_action
+            ctx.keymap(keymap)
+            ctx.reload()
 
     return set_inner
 
@@ -133,8 +145,8 @@ def againKey(key):
     return _eKey
 
 def get_agains():
-    global glob_again, glob_back, again_phrase
-    return (glob_again, glob_back, again_phrase)
+    global glob_again, glob_back, again_phrase, glob_again_label, glob_back_label
+    return (glob_again, glob_back, again_phrase, glob_again_label, glob_back_label)
 
 def flip_agains(m):
     global glob_again, glob_back, again_phrase
@@ -147,19 +159,18 @@ def flip_agains(m):
     else:
         again_phrase = again_phrase + flip_label
 
-ctx.keymap(
-    {
-        # ordinals from 2shea
-        # 2nd / 4th / 11th after any command
-        # "{repeater.ordinals}": repeat_ordinal,
-        
-        utils.numerals + '(times | ok)': repeat,
-        "(repeat | wink) [" + utils.numerals + ']': repeat,
-        
-        "(again | shizzle | yarp ) [" + utils.numerals + ']': again_action,
-        "(back | fizzle) [" + utils.numerals + ']': back_action,
-        # again phrase
-        "flip again[s]": flip_agains,
-    }
-)
+orig_keymap = {
+    # ordinals from 2shea
+    # 2nd / 4th / 11th after any command
+    # "{repeater.ordinals}": repeat_ordinal,
+    
+    utils.numerals + '(times | ok)': repeat,
+    "(repeat | wink) [" + utils.numerals + ']': repeat,
+    
+    "(again) [" + utils.numerals + ']': again_action,
+    "(back) [" + utils.numerals + ']': back_action,
+    # again phrase
+    "flip again[s]": flip_agains,
+}
+ctx.keymap(orig_keymap)
 

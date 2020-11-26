@@ -2,7 +2,7 @@ from talon.voice import Context, Str, press
 import string
 from ..utils import normalise_keys, insert
 
-alpha_alt = 'air bat cap drum each fine gust harp sit jury crunch look made near odd pit quench red sun trap urge vest whale plex yank zip'.split()
+alpha_alt = 'air bat cap door each fine gust harp sit jury crunch look made near odd pit quench red sun trap urge vest whale plex yank zip'.split()
 # alpha_alt = 'air bat cap drum each fine gust harp sit jury crunch look made near odd pit quench red sun trap urge vest whale trex yank zip'.split()
 
 f_keys = {f'F {i}': f'f{i}' for i in range(1, 13)}
@@ -55,11 +55,9 @@ symbols = normalise_keys(
         # "(crimp | lloyd)": "left",
         # "chris": "right",
         "jeep": "up",
-        "( dune | doom )": "down",
+        # "( dune | doom )": "down",
         '(box)': 'x',
-        '(beep)': 'b',
-        # '(cuss)': 'c',
-        '(far | fuss | fuzz)': 'f',
+        '(far)': 'f',
         '(king)': 'k',
         '(gone)': 'g',
         '(jik)': 'j',
@@ -67,16 +65,17 @@ symbols = normalise_keys(
         # 'green': 'g',
         'hope': 'h',
         'door': 'd',
+        '(sharp)': 's',
         'mad': 'm',
-        'dip': 'd',
+        # 'dip': 'd',
         # 'sip': 's',
         '(tango | tea)': 't',
         # 'peach': 'p',
         'queen': 'q',
-        '(oy|oil)': 'o',
+        '(oy|oil|awsh)': 'o',
         "( backspace | junk )": "backspace",
         "(delete | forward delete | dell)": "delete",
-        "(space | spooce)": "space",
+        "(space)": "space",
         "(untab | untarp | tug | left indent)": "shift-tab",
         "(tab | tarp)": "tab",
         "( enter | apply | use )": "enter",
@@ -84,7 +83,7 @@ symbols = normalise_keys(
         "pagedown": "pagedown",
         "pageup": "pageup",
         "(pop | peesh)": "home",
-        "(push)": "end",
+        "(push | end)": "end",
         "(tick | back tick)": "`",
         "(comma | ,)": ",",
         "(dot)": ".",

@@ -6,7 +6,7 @@
 from talon.voice import Key, press, Str, Context
 from talon import clip, cron
 
-from ..utils import parse_words, insert, tell_hammerspoon_osa, seti
+from ..utils import parse_words, insert, tell_hammerspoon_cli, seti
 from ..show_choices import show_choices
 
 ctx = Context('clipboard')
@@ -22,7 +22,7 @@ def copy_selection(m):
         keymap['free %s' % key] = seti(value)
         ctx.keymap(keymap)
         ctx.reload()
-        tell_hammerspoon_osa(f"showAlert('copied to {key}')")
+        tell_hammerspoon_cli(f"showAlert('copied to {key}')")
 
 def show_clips(m):
     global ctx
@@ -42,7 +42,7 @@ def show_clips(m):
         values = list(map(lambda s: f"<pre>{keymap[prefix + s]}</pre>", clips))
         show_choices(values, 'clipboard', lambda clip: pick_choice(clip), clips)
     else:
-        tell_hammerspoon_osa(f"showAlert('no clips')")
+        tell_hammerspoon_cli(f"showAlert('no clips')")
         
 
 keymap = {

@@ -479,6 +479,11 @@ def tell_alfred_flow(workflow, trigger, arg=None):
         # print('osa said: ', result)
         return result
     
+def tell_hammerspoon_cli(code):
+    command = f'''
+    /usr/local/bin/hs -q -c "{code}"'''
+    os.system(command)
+    
 def tell_hammerspoon_osa(code):
     script = f'''
     tell application "Hammerspoon"

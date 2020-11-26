@@ -9,7 +9,7 @@ keymap = {
     "(search | marco) [<dgndictation>+] [over]": [Key("cmd-f"), text, set_again('cmd-g', 'cmd-shift-g')],
     # "marneck": Key("cmd-g"),
     # "marpreev": Key("cmd-shift-g"),
-    "marthis": [Key("alt-right"), Key("shift-alt-left"), Key("cmd-f"), Key("enter"), set_again('cmd-g', 'cmd-shift-g')],
+    # "marthis": [Key("alt-right"), Key("shift-alt-left"), Key("cmd-f"), Key("enter"), set_again('cmd-g', 'cmd-shift-g')],
     # "(find selected text | find selection | sell find)": Key("cmd-e cmd-f enter"),
     # "set selection [text]": Key("cmd-e"),
     # "set replacement [text]": Key("cmd-shift-e"),

@@ -2,7 +2,7 @@ from talon.voice import Context, ContextGroup, Key
 from talon.engine import engine
 from talon_plugins import speech
 from talon import speechd, cron
-from ..utils import tell_hammerspoon_osa
+from ..utils import tell_hammerspoon_cli
 
 sleep_group = ContextGroup("sleepy")
 sleepy = Context("sleepy", group=sleep_group)
@@ -37,8 +37,8 @@ def show_mode_message():
     else:
         msg = 'talon mode'
         icon = '🦅'
-    # tell_hammerspoon_osa(f"showQuickMessage('{mode} active')")
-    tell_hammerspoon_osa(f"showAlert('{icon} {msg}')")
+    # tell_hammerspoon_cli(f"showQuickMessage('{mode} active')")
+    tell_hammerspoon_cli(f"showAlert('{icon} {msg}')")
 
 def set_voice_type(type, silent=None):
     global voice_type, last_voice_type
