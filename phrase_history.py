@@ -90,9 +90,9 @@ td {
 {% endfor %}
 {% if agains[0] != None and show_again %}
     <tr id="again">
-        <td><span class="number">0</span>{{ agains[0] }}</td>
+        <td><span class="number">0</span>{% if agains[3] != None %}"{{agains[3]}}" {%endif%}{{ agains[0] }}</td>
         <td {% if agains[1] == None %}colspan="2" {%endif%} style="text-align: {% if agains[1] != None %}center{%else%}right{%endif%};"><span style='white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'>({{ agains[2] }})</span></td>
-        {% if agains[1] != None %}<td style="text-align: right;">{{ agains[1] }}<span class="number">0</span></td>{% endif %}
+        {% if agains[1] != None %}<td style="text-align: right;">{{ agains[1] }}{% if agains[4] != None %} "{{agains[4]}}"{%endif%}<span class="number">0</span></td>{% endif %}
     </tr>
 {% endif %}
 {% if show_macro %}
@@ -126,7 +126,7 @@ class History:
 
     def on_phrase_pre(self, j):
         print(j)
-        
+    
     def on_phrase_post(self, j):
         phrase = self.parse_phrase(j.get('phrase', []))
         if phrase in ('history show', 'history hide'):
@@ -148,11 +148,14 @@ class History:
             if self.timer != None:
                 cron.cancel(self.timer)
             self.timer = cron.after('15s', self.auto_hide)
-            
+    
+    def stringify_phase(self, j):
+        print(j)
+        
     def render(self):
         global show_agains
         agains = get_agains()
-        agains = (format_keys(agains[0]), format_keys(agains[1]), agains[2])
+        agains = (format_keys(agains[0]), format_keys(agains[1]), agains[2], agains[3], agains[4])
         show_macro = is_recording() or display_macro()
         webview.render(template, phrases=self.history, agains=agains, show_again=show_agains, show_macro=show_macro, recording=is_recording(), recorded="␣".join(self.macro_history))
     
@@ -175,5 +178,6 @@ ctx.keymap({
     'history hide': lambda m: webview.hide(),
     "(show | hide | toggle) again[s]": toggle_agains,
     "(pick again | rerun | re run)": pick_again,
+    # 'scribble <dgndictation>': note_to_self,
 })
 webview.show()
